@@ -1,29 +1,42 @@
 body {
-    background-color: #fefae0;
+  background-color: #fefae0;
 }
 
 h1 {
-    color: #606c38;
-    text-align: center;
+  color: #606c38;
+  text-align: center;
 }
 
-#reset {
-    display: flex;
-    justify-content: center;
-    margin-top: 25px;
+.square {
+  border: 3px solid #606c38;
+  font-size: 125px;
+  text-align: center;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+#gameReset {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  width: 10%;
 }
 
 #board {
-    margin: 0 auto;
-    height: 500px;
-    width: 500px;
-    border: 4px solid #606c38;
-    background-color: #283618;
-    /* border-radius: 5%; */
-    display: grid;
-    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  margin: 0 auto;
+  height: 500px;
+  width: 500px;
+  border: 5px solid #606c38;
+  background-color: #283618;
+  /* border-radius: 5%; */
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
 
-.squares {
-    border: 2px solid #606c38;
+#messageReset {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  /* margin-bottom: 5px; */
 }

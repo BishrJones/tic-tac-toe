@@ -1,19 +1,14 @@
-const board = document.querySelector('#board')
-const squares = document.querySelectorAll('.squares')
-const reset = document.querySelector('#reset')
-const message = document.querySelector('#message')
 
-// set varibles for the current player
-let firstPlayer = 'X'
-    // set a a varible as a boolean to use later to make sure no squares cann be used aafter the game is no longer active
-let activeGame = true
-    // make an array for the nine empty squares on the board
-let emptyboard = ['', '', '', '', '', '', '', '', '']
+const board = document.getElementById('board')
+const square = document.querySelectorAll('.square')
+const reset = document.getElementById('gameReset')
+const message = document.getElementById('message')
 
 
-// make a function that list all of the possible winning combinations in arrays
-// the array numbers are based on the placement of the squares, 0 starting in the left upper corner and the number goes up to the right
-const winningComb = [
+let circleTurn
+const playerX = 'x'
+const playerCircle = 'o'
+const winningCombs = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -23,24 +18,84 @@ const winningComb = [
     [0, 4, 8],
     [2, 4, 6]
 ]
-console.log('these are all of the winning combinations', winningComb)
-
-// create game variables for game conditions, either player wins or there is a tie
-const xWins = 'xWins'
-const oWins = 'oWins'
-const tie = 'tie'
 
 
-// make X and O variables
 
-// make the reset button reset the entire board
-const clearBoard = () => {
-        // if there is a child on the board, remove it 
-        while (board.firstChild) {
-            board.removeChild(board.firstChild)
-        }
-    }
-    // add an event listner for anytime the DOM content is loaded the all for a game reset 
-document.addEventListener('DomContentLoaded', () => {
-    reset.addEventListener('click', clearBoard)
+const handleClick = (e,) => {
+   const square = e.target
+   const currentTurn = circleTurn ? playerCircle : playerX
+   square.innerText = currentTurn
+   placeMark(square, currentTurn)
+   if (checkWin(currentTurn)) {
+       endGame(false)
+   } else if (isDraw()) {
+       endGame(true)
+   } else {
+       swapTurns()
+        
+   }
+//    console.log('this is the mark placed',placeMark)
+}
+
+const startGame = () => {
+    circleTurn = false
+    square.forEach(square => {
+        square.removeEventListener('click', handleClick)
+        square.addEventListener('click', handleClick, { once: true })
+    })
+    
+    message.classList.remove('show')
+}
+
+startGame()
+
+reset.addEventListener('click', function() {
+    window.location.reload(true)
+    console.log('clicked')
 })
+
+console.log('clicked', reset)
+
+
+
+const endGame = (draw) => {
+    if (draw) {
+        message.innerText = 'Draw!'
+    } else {
+        message.innerText = `${circleTurn ? "O's" : "X's"} Wins!`
+
+    }
+    
+}
+
+const isDraw = () => {
+    return [...square].every(square => {
+        return square.classList.contains(playerX) || square.classList.contains(playerCircle)
+    })
+}
+
+const placeMark = (square, currentTurn) => {
+    
+    if (checkWin === true){
+        return square.innerText = ''
+    }else{
+        square.classList.add(currentTurn)
+    }
+}
+
+
+const swapTurns = () => {
+    circleTurn = !circleTurn
+}
+
+
+const checkWin = (currentTurn) => {
+    return winningCombs.some(combination => {
+        return combination.every(index => {
+            return square[index].classList.contains(currentTurn)
+            
+        })
+    })
+}
+
+
